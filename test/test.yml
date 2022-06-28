@@ -1,0 +1,6 @@
+---
+- import_playbook: amq.yml
+- import_playbook: keycloak.yml
+- import_playbook: infinispan.yml
+- import_playbook: wildfly.yml
+

@@ -1,0 +1,38 @@
+---
+name: CI
+
+on:
+  pull_request:
+    branches: 
+      - main
+  push:
+    branches:
+      - main
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ansible-core ansible-navigator[ansible-core]
+
+      - name: Build EE with Podman
+        run: |
+          ansible-builder build -v3 -c . -t ansible-middleware-clouds-ee:test --container-runtime=podman
+
+      - name: Run ansible-navigator with local image
+        run: |
+          ansible-navigator run test.yml -i inventory --pull-policy never --eei ansible-middleware-clouds-ee:test -m stdout
+        working-directory: test

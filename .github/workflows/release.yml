@@ -1,0 +1,56 @@
+---
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Get Tag Version
+        id: get_version
+        run: echo ::set-output name=TAG_VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ansible-core ansible-navigator[ansible-core]
+
+      - name: Build image
+        run: |
+          ansible-builder build -v3 -c . --container-runtime=podman --tag=quay.io/ansible-middleware/ansible-middleware-clouds-ee:${{ steps.get_version.outputs.TAG_VERSION }}
+
+      - name: Apply latest tag
+        run: |
+          podman tag quay.io/ansible-middleware/ansible-middleware-clouds-ee:${{ steps.get_version.outputs.TAG_VERSION }} quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest
+
+      - name: Push images
+        run: |
+          echo "${{ secrets.QUAY_ROBOT_TOKEN }}" | podman login quay.io -u="ansible-middleware+foo" --password-stdin
+          podman push quay.io/ansible-middleware/ansible-middleware-clouds-ee:${{ steps.get_version.outputs.TAG_VERSION }}
+          podman push quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest
+
+      - name: Run ansible-navigator with pulled image
+        run: |
+          ansible-navigator run keycloak.yml -i inventory --pull-policy always --eei quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest -m stdout
+        working-directory: test
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: "*.tar.gz"
+          body: "Release ${{ steps.get_version.outputs.TAG_VERSION }}"
