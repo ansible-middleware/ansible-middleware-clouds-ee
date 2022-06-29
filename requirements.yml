@@ -9,13 +9,14 @@ collections:
   - name: amazon.aws
   - name: azure.azcollection
   - name: middleware_automation.infinispan
-    version: "==1.0.3"
+    src: https://github.com/ansible-middleware/infinispan
   - name: middleware_automation.keycloak
     version: "==1.0.6"
   - name: middleware_automation.wildfly
+    src: https://github.com/ansible-middleware/wildfly
     version: "==1.0.5"
   - name: middleware_automation.amq
-    version: "==0.0.3"
+    src: https://github.com/ansible-middleware/amq
   - name: middleware_automation.jws
     version: "==1.1.1"
   - name: middleware_automation.redhat_csp_download

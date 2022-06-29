@@ -8,7 +8,7 @@ ansible-navigator:
   execution-environment:
     container-engine: podman
     enabled: true
-    image: quay.io/ansible-middleware/ansible-middleware-ee:latest
+    image: quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest
   logging:
     level: info
   playbook-artifact:
