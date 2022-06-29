@@ -1,6 +1,6 @@
-# ansible-middleware-ee
+# ansible-middleware-clouds-ee
 
-Execution Environment providing middleware automation collections
+Execution Environment providing middleware automation collections, plus aws and azure
 
 
 ## Installation
@@ -8,7 +8,7 @@ Execution Environment providing middleware automation collections
 Install with ansible-navigator:
 
 ```
-# ansible-navigator --eei quay.io/ansible-middleware/ansible-middleware-ee:latest
+# ansible-navigator --eei quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest
 ```
 
 Sample config for ansible-navigator taken from our tests:
@@ -25,7 +25,7 @@ ansible-navigator:
   execution-environment:
     container-engine: podman
     enabled: true
-    image: quay.io/ansible-middleware/ansible-middleware-ee:latest
+    image: quay.io/ansible-middleware/ansible-middleware-clouds-ee:latest
   logging:
     level: info
   playbook-artifact:
@@ -35,6 +35,6 @@ ansible-navigator:
 
 ## Usage
 
-Short tutorial showing the whole procedure to deploy keycloak on a kvm/qemu virtual machine using ansible-navigator and ansible-middleware-ee:
+Short tutorial showing the whole procedure to deploy keycloak on a kvm/qemu virtual machine using ansible-navigator and ansible-middleware-clouds-ee:
 
 [![asciicast](https://asciinema.org/a/477628.png)](https://asciinema.org/a/477628?autoplay=1)
