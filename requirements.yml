@@ -8,6 +8,7 @@ collections:
   - name: community.aws
   - name: amazon.aws
   - name: azure.azcollection
+  - name: google.cloud
   - name: middleware_automation.infinispan
     source: https://github.com/ansible-middleware/infinispan
     type: git

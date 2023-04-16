@@ -6,3 +6,6 @@ python3-jmespath [platform:rpm]
 python3-requests [platform:rpm]
 python3-libsemanage [platform:rpm]
 python3-libselinux [platform:rpm]
+python3-boto3 [platform:rpm]
+python3-botocore [platform:rpm]
+
