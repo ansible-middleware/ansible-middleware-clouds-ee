@@ -1,11 +1,49 @@
 ---
-version: 1
+version: 3
+images:
+  base_image:
+    name: quay.io/centos/centos:stream9
 build_arg_defaults:
-  EE_BASE_IMAGE: 'quay.io/ansible/ansible-runner:stable-2.12-devel'
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: '--pre'
+
 dependencies:
   galaxy: requirements.yml
-  python: requirements.txt
-  system: bindep.txt
+  ansible_core:
+    package_pip: ansible-core>=2.15.0
+  ansible_runner:
+    package_pip: ansible-runner
+  system: |
+    git-core [platform:rpm]
+    python3.9-devel [platform:rpm compile]
+    libcurl-devel [platform:rpm compile]
+    krb5-devel [platform:rpm compile]
+    krb5-workstation [platform:rpm]
+    subversion [platform:rpm]
+    subversion [platform:dpkg]
+    git-lfs [platform:rpm]
+    sshpass [platform:rpm]
+    rsync [platform:rpm]
+    epel-release [platform:rpm]
+    python-unversioned-command [platform:rpm]
+    unzip [platform:rpm]
+  python: |
+    git+https://github.com/ansible/ansible-sign
+    ncclient
+    paramiko
+    pykerberos
+    pyOpenSSL
+    pypsrp[kerberos,credssp]
+    pywinrm[kerberos,credssp]
+    toml
+    pexpect>=4.5
+    python-daemon
+    pyyaml
+    six
 additional_build_steps:
-  append:
-    - RUN alternatives --set python /usr/bin/python3
+  append_base:
+    - RUN $PYCMD -m pip install -U pip
+  append_final:
+    - COPY --from=quay.io/ansible/receptor:devel /usr/bin/receptor /usr/bin/receptor
+    - RUN mkdir -p /var/run/receptor
+    - RUN git lfs install --system
+

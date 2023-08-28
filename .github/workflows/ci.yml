@@ -26,7 +26,7 @@ jobs:
           sudo apt-get -y install podman
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install ansible-core ansible-navigator[ansible-core]
+          pip install ansible-core>=2.15.0 ansible-navigator ansible-runner
 
       - name: Build EE with Podman
         run: |
@@ -34,5 +34,6 @@ jobs:
 
       - name: Run ansible-navigator with local image
         run: |
+          ansible-navigator --version
           ansible-navigator run test.yml -i inventory --pull-policy never --eei ansible-middleware-clouds-ee:test -m stdout
         working-directory: test

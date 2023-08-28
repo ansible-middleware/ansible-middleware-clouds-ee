@@ -1,5 +1,6 @@
 ---
 collections:
+  - name: awx.awx
   - name: community.general
   - name: ansible.posix
   - name: ansible.netcommon
@@ -9,21 +10,24 @@ collections:
   - name: amazon.aws
   - name: azure.azcollection
   - name: google.cloud
+  - name: kubernetes.core
+  - name: kubevirt.core
+  - name: redhatinsights.insights
+  - name: openstack.cloud
+  - name: community.vmware
+  - name: ovirt.ovirt
+  - name: theforeman.foreman
   - name: middleware_automation.infinispan
-    source: https://github.com/ansible-middleware/infinispan
-    type: git
+    version: "==1.2.0"
   - name: middleware_automation.keycloak
-    source: https://github.com/ansible-middleware/keycloak
-    type: git
+    version: "==1.2.8"
   - name: middleware_automation.wildfly
-    source: https://github.com/ansible-middleware/wildfly
-    type: git
+    version: "==1.3.4"
   - name: middleware_automation.amq
-    source: https://github.com/ansible-middleware/amq.git
-    type: git
+    version: "==1.3.8"
+  - name: middleware_automation.amq_streams
+    version: "==0.0.5"
   - name: middleware_automation.jws
-    version: "==1.1.1"
-  - name: middleware_automation.redhat_csp_download
-    version: "==1.2.2"
-  - name: middleware_automation.jcliff
-    version: "==0.0.23"
+    version: "==1.2.3"
+  - name: middleware_automation.common
+    version: "==1.1.2"
