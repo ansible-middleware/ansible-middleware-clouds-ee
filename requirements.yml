@@ -32,5 +32,5 @@ collections:
   - name: middleware_automation.common
     version: "==1.1.2"
   - name: middleware_automation.jbcs
-    version: "==1.0.2"
+    version: "==1.0.3"
 
